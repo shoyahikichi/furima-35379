@@ -8,7 +8,7 @@ class User < ApplicationRecord
   validates_format_of :password, with: PASSWORD_REGEX, message: 'is invalid. Include both letters and numbers'
   validates :nickname, presence: true
   validates :birthday, presence: true
-  with_options presence: true, format: { with: /\A[ぁ-んー-龥々ー]+\z/, message: 'is invalid. Input full-width characters' } do
+  with_options presence: true, format: { with: /\A[ぁ-んァ-ヶー-龥々ー]+\z/, message: 'is invalid. Input full-width characters' } do
     validates :first_name
     validates :family_name
   end
