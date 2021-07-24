@@ -5,17 +5,18 @@ class Item < ApplicationRecord
   belongs_to :postage_payer
   belongs_to :prefecture
   belongs_to :preparation_day
+  belongs_to :user
   has_one_attached :image
 
   with_options presence: true do
     validates :image
     validates :name
     validates :introduction
-    validates :price, inclusion: { in: 300..9_999_999 }, format: { with: /\A[0-9]+\z/ }
+    validates :price, format: { with: /\A[0-9]+\z/ , message: "is invalid. Input half-width characters"}, inclusion: { in: 300..9_999_999 ,message: "is out of setting range"}
   end
 
 
-  with_options numericality: { other_than: 1 } do
+  with_options numericality: { other_than: 1 , message: "can't be blank"} do
     validates :category_id
     validates :item_condition_id
     validates :postage_payer_id
