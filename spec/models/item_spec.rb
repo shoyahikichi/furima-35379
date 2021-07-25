@@ -27,52 +27,27 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include("Introduction can't be blank")
       end
-      it 'category_idが---だと出品できない' do
-        @item.category_id = ''
-        @item.valid?
-        expect(@item.errors.full_messages).to include("Category can't be blank")
-      end
-      it 'category_idは値が1だと出品できない' do
+      it 'category_idは値が---だと出品できない' do
         @item.category_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Category can't be blank")
       end
-      it 'item_condition_idが---だと出品できない' do
-        @item.item_condition_id = ''
-        @item.valid?
-        expect(@item.errors.full_messages).to include("Item condition can't be blank")
-      end
-      it 'item_condition_idは値が1だと出品できない' do
+      it 'item_condition_idは値が---だと出品できない' do
         @item.item_condition_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Item condition can't be blank")
       end
-      it 'postage_payer_idが---だと出品できない' do
-        @item.postage_payer_id = ''
-        @item.valid?
-        expect(@item.errors.full_messages).to include("Postage payer can't be blank")
-      end
-      it 'postage_payer_idは値が1だと出品できない' do
+      it 'postage_payer_idは値が---だと出品できない' do
         @item.postage_payer_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Postage payer can't be blank")
       end
-      it 'prefecture_idが---だと出品できない' do
-        @item.prefecture_id = ''
-        @item.valid?
-        expect(@item.errors.full_messages).to include("Prefecture can't be blank")
-      end
-      it 'prefecture_idは値が1だと出品できない' do
+      it 'prefecture_idは値が---だと出品できない' do
         @item.prefecture_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Prefecture can't be blank")
       end
-      it 'preparation_day_idが---だと出品できない' do
-        @item.preparation_day_id = ''
-        @item.valid?
-        expect(@item.errors.full_messages).to include("Preparation day can't be blank")
-      end
-      it 'preparation_day_idは値が1だと出品できない' do
+      it 'preparation_day_idは値が---だと出品できない' do
         @item.preparation_day_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Preparation day can't be blank")
@@ -92,8 +67,18 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include('Price is out of setting range')
       end
-      it 'priceは半角数字以外だと出品できない' do
+      it 'priceは全角だと出品できない' do
         @item.price = '１０００'
+        @item.valid?
+        expect(@item.errors.full_messages).to include('Price is out of setting range')
+      end
+      it 'priceは半角英語だけでは出品できない' do
+        @item.price = 'abcd'
+        @item.valid?
+        expect(@item.errors.full_messages).to include('Price is out of setting range')
+      end
+      it 'priceは半角英数字混同では出品できない' do
+        @item.price = 'a1b2c3'
         @item.valid?
         expect(@item.errors.full_messages).to include('Price is out of setting range')
       end
