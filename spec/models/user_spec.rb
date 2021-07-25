@@ -121,7 +121,6 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.full_messages).to include('Family name kana is invalid. Input full-width katakana characters')
       end
-
     end
   end
 end
