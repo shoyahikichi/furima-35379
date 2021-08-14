@@ -1,8 +1,8 @@
 class PurchasesController < ApplicationController
   before_action :authenticate_user!
-
+  before_action :set_item, only: [:index, :create]
+  before_action :move_to_index
   def index
-    @item = Item.find(params[:item_id])
     @purchase = PurchaseForm.new
     if current_user.id == @item.user_id
       redirect_to root_path
@@ -10,7 +10,6 @@ class PurchasesController < ApplicationController
   end
 
   def create
-    @item = Item.find(params[:item_id])
     @purchase = PurchaseForm.new(purchase_form_params)
     if @purchase.valid?
       @purchase.save
@@ -24,5 +23,15 @@ class PurchasesController < ApplicationController
 
   def purchase_form_params
     params.require(:purchase_form).permit(:postal_code, :prefecture_id, :city, :address, :phone_number, :building_name, :purchase_id).merge(user_id: current_user.id, item_id: params[:item_id])
+  end
+
+  def set_item
+    @item = Item.find(params[:item_id])
+  end
+
+  def move_to_index
+    if @item.purchase.present?
+      redirect_to root_path 
+    end
   end
 end
