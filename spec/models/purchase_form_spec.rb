@@ -7,6 +7,7 @@ RSpec.describe PurchaseForm, type: :model do
     @item.image = fixture_file_upload('public/images/output-image1.png')
     @item.save
     @purchase_form = FactoryBot.build(:purchase_form, user_id: @user.id, item_id: @item.id)
+    sleep 0.1
   end
 
   describe '商品購入機能' do
@@ -50,6 +51,11 @@ RSpec.describe PurchaseForm, type: :model do
         @purchase_form.phone_number = ''
         @purchase_form.valid?
         expect(@purchase_form.errors.full_messages).to include("Phone number can't be blank")
+      end
+      it 'tokenが空では保存ができない' do
+        @purchase_form.token = nil
+        @purchase_form.valid?
+        expect(@purchase_form.errors.full_messages).to include("Token can't be blank")
       end
     end
   end
