@@ -1,7 +1,7 @@
 class PurchaseForm
   include ActiveModel::Model
 
-  attr_accessor :user_id, :item_id, :postal_code, :prefecture_id, :city, :address, :phone_number, :building_name, :purchase_id
+  attr_accessor :user_id, :item_id, :postal_code, :prefecture_id, :city, :address, :phone_number, :building_name, :purchase_id, :token
   with_options presence: true do
     validates :user_id
     validates :item_id
@@ -10,6 +10,7 @@ class PurchaseForm
     validates :city
     validates :address
     validates :phone_number, format: { with: /\A\d{11}\z/, message: 'Input only number'}
+    validates :token
   end
 
   def save
